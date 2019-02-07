@@ -10,10 +10,7 @@
 
 ## Execution
 
-1.	`source venv/bin/activate`
-2.	`cd Subreddit`
-3.	`./crawl.sh`
-4.	`deactivate`
+1.	`./crawl.sh`
 
 ## Settings
 

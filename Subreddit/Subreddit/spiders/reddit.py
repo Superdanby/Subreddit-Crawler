@@ -8,9 +8,12 @@ class RedditSpider(scrapy.Spider):
     authors = []
     media = []
     unixtime = []
+    ups = []
+    downs = []
     url_cnt = 0
+
     def start_requests(self):
-        assert(self.subreddit != None and self.unix_time != None)
+        assert(self.subreddit is not None and self.unix_time is not None)
         subreddit = str(self.subreddit)
         timestamp = float(self.unix_time)
         driver = webdriver.Chrome()
@@ -37,11 +40,14 @@ class RedditSpider(scrapy.Spider):
         self.authors.append(data[0]["data"]["children"][0]["data"]["author"])
         self.media.append(data[0]["data"]["children"][0]["data"]["url"])
         self.unixtime.append(data[0]["data"]["children"][0]["data"]["created"])
+        self.ups.append(data[0]["data"]["children"][0]["data"]["ups"])
+        self.downs.append(data[0]["data"]["children"][0]["data"]["downs"])
         self.log('Fetched: ' + self.authors[-1] + ' ' + self.media[-1])
 
     def closed(self, reason):
         with open(self.name + '.csv', 'w', newline='') as f:
-            csvwriter = csv.writer(f, delimiter=',')
-            for row in zip(self.authors, self.unixtime, self.media):
+            csvwriter = csv.writer(f, delimiter=',', lineterminator='\n')
+            csvwriter.writerow(('Author', 'Unix_timestamp', 'Ups', 'Downs', 'Link'))
+            for row in zip(self.authors, self.unixtime, self.ups, self.downs, self.media):
                 csvwriter.writerow(row)
         print(f'Expected: {self.url_cnt}, got: {len(self.authors)}\n')
