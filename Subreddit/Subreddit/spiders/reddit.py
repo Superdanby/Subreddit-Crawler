@@ -39,7 +39,7 @@ class RedditSpider(scrapy.Spider):
         data = json.loads(response.body_as_unicode())
         self.authors.append(data[0]["data"]["children"][0]["data"]["author"])
         self.media.append(data[0]["data"]["children"][0]["data"]["url"])
-        self.unixtime.append(data[0]["data"]["children"][0]["data"]["created"])
+        self.unixtime.append(int(data[0]["data"]["children"][0]["data"]["created"]))
         self.ups.append(data[0]["data"]["children"][0]["data"]["ups"])
         self.downs.append(data[0]["data"]["children"][0]["data"]["downs"])
         self.log('Fetched: ' + self.authors[-1] + ' ' + self.media[-1])
