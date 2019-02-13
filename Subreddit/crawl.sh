@@ -17,9 +17,16 @@ Reddit () {
 	deactivate
 }
 
+Imgur () {
+	source $(printf "$VENV_PATH/bin/activate")
+	python imgur.py --csvfile=reddit.csv
+	deactivate
+	rm reddit.csv
+}
+
 Download () {
 	mkdir -p $DOWNLOAD_FOLDER
-	for x in $(cat reddit.csv | cut -d ',' -f 5 | grep -E $(printf "\.($EXTENSIONS)\$") | sed 's/\(http\)\([^s]\)/\1s\2/'); do
+	for x in $(cat imgur.csv | cut -d ',' -f 5 | grep -E $(printf "\.($EXTENSIONS)\$") | sed 's/\(http\)\([^s]\)/\1s\2/'); do
 		(
 			destination="$DOWNLOAD_FOLDER/$(printf "$x" | sha512sum | awk '{print $1 = $1}')"
 			curl -o $destination $x
@@ -34,5 +41,6 @@ Download () {
 
 # Main
 Reddit
+Imgur
 Download
 exit 0
