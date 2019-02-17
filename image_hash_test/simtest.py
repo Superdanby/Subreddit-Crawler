@@ -15,6 +15,7 @@ second = imagehash.whash(play, hash_size=hash_size)
 secondp = imagehash.phash(play, hash_size=hash_size)
 secondd = imagehash.dhash(play, hash_size=hash_size)
 
+print(first)
 print((first - second))
 print((first - second)/(hash_size**2))
 print((firstp - secondp)/(hash_size**2))
