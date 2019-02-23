@@ -1,0 +1,3 @@
+[submodule "Similage"]
+	path = Similage
+	url = git@github.com:Superdanby/Similage.git
